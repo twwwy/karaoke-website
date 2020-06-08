@@ -3,3 +3,5 @@
 /.DS_Store
 /01.ipynb
 /dump.rdb
+/.idea
+/website/__pycache__
