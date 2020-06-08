@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{%  block content %}
+<!--<div class="container-fluid mx-4 p-2">-->
+
+
+  <div class="container">
+
+    <div class="row">
+        <!-- Column Left -->
+        <div class="col-lg-8 p-2">
+        <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+            <div class='embed-responsive'id="player"></div>
+        </div>
+
+        <!-- Column Right -->
+        <div class="col-lg-4 p-2">
+
+            <!-- Search -->
+            <form class="search d-inline w-100" onsubmit="search_trigger(); return false;">
+                {{ form.hidden_tag() }}
+                <div class="input-group">
+                    {{ form.searchText(id='searchText', class='form-control border border-right-0', placeholder="Search Video") }}
+                    <span class="input-group-append">
+                            {{ form.submitSearch(accesskey="enter", class='btn btn-outline-primary border border-left-0') }}
+                    </span>
+                </div>
+            </form>
+
+                <!-- Search Result -->
+            <div class="result list-group" id="result">
+                <ul class="result " id="result">
+
+                </ul>
+            </div>
+
+            <!-- Up Next -->
+            <div class="d-flex mt-4">
+                <div class="mr-auto p-2">Up next</div>
+                <button class="queue btn btn-outline-primary btn-sm p-2" id="button2_queue" onmousedown=start_playing()>Start Playing</button>
+                <button class="queue btn btn-outline-primary btn-sm p-2" id="button3_queue" onmousedown=next_song()>Next Song</button>
+                <button class='queue btn btn-outline-secondary btn-sm p-2' id="button1_queue" onmousedown=clear_queue()>Clear Queue</button>
+            </div>
+
+            <div class="queue mt-4" id="div_queue">
+                <ol class="queue list-group" id="ol_queue"></ol>
+            </div>
+
+            <!-- History -->
+            <div class="history" id="div_history">
+                <div class="mr-auto p-2 mt-4">History</div>
+                <ol class="history list-group" id="ol_history"></ol>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div>
+        <audio controls hidden>
+            <source id="source" src="" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+    </div>
+
+  </div>
+<!--</div>-->
+{%  endblock %}

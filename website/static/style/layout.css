@@ -1,0 +1,17 @@
+li.result {
+         cursor:pointer;
+         /*color:blue;*/
+         text-decoration:underline;
+}
+
+li.queue {
+         cursor:pointer;
+         /*color: blue;*/
+         text-decoration:underline;
+}
+
+li.history {
+    cursor: pointer;
+    /*color: blue;*/
+    text-decoration: underline;
+}
