@@ -1,2 +1,5 @@
 /.ipynb_checkpoints/
 /website/static/downloads/
+/.DS_Store
+/01.ipynb
+/dump.rdb
