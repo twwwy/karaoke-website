@@ -1,75 +1,9 @@
-from website import app
-import os
-from os.path import join, dirname, realpath
-import glob
-
-from flask import render_template, request, jsonify, current_app
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
-
 from pytube import YouTube
-from youtube_search import YoutubeSearch
 from spleeter.separator import Separator
 from spleeter.audio.adapter import get_default_audio_adapter
 
-UPLOADS_PATH = join(dirname(realpath(__file__)), 'static/downloads/')
-
-class SearchForm(FlaskForm):
-    searchText = StringField('', validators=[DataRequired()])
-    submitSearch = SubmitField('Search')
-
-@app.route('/')
-def karaoke():
-    form = SearchForm()
-    return render_template('youtubeplayer.html', form=form)
-
-
-@app.route('/search_result', methods=['POST'])
-def search():
-    text = request.form['search_text']
-    results = YoutubeSearch(text, max_results=5)
-    i = 0
-    while len(results.videos) == 0:
-        print('search again  ' + str(i))
-        results = YoutubeSearch(text, max_results=5)
-        i += 1
-        if i > 2:
-            break
-
-    res_json = results.to_json()
-    return res_json
-
-@app.route("/tasks", methods=["POST"])
-def run_task():
-    audio_url = request.form['url']
-    _video_id = request.form['_video_id']
-    task = current_app.task_queue.enqueue(download_audio, audio_url, _video_id)
-    response_object = {
-        "status": "success",
-        "data": {
-            "task_id": task.get_id()
-        }
-    }
-    return jsonify(response_object), 202
-
-@app.route("/tasks/<task_id>", methods=["GET"])
-def get_status(task_id):
-    task = current_app.task_queue.fetch_job(task_id)
-    print(task, flush=True)
-    if task:
-        response_object = {
-            "status": "success",
-            "data": {
-                "task_id": task.get_id(),
-                "task_status": task.get_status(),
-                "task_result": task.result,
-            },
-        }
-    else:
-        response_object = {"status": "error"}
-    return jsonify(response_object)
-
+import os
+import glob
 
 def download_audio(audio_url, _video_id):
     pre_url = 'https://youtube.com'
@@ -127,8 +61,3 @@ def _split_audio(path, filename):
     print('_ready to separate', flush=True)
     separator.separate_to_file(filename, path, codec='mp3')
     print('separation done', flush=True)
-
-
-@app.route('/karaoke')
-def temp():
-    return render_template('karaoke.html')

@@ -5,3 +5,5 @@
 /dump.rdb
 /.idea
 /website/__pycache__
+/pretrained_models/
+/website/pretrained_models/

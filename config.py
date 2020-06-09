@@ -1,4 +1,5 @@
 import os
+from os.path import join, dirname, realpath
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -8,6 +9,7 @@ class BaseConfig(object):
     DEBUG = True
     REDIS_URL = "redis://"
     QUEUES = ["default"]
+    UPLOADS_PATH = join(dirname(realpath(__file__)), 'website/static/downloads/')
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration."""
