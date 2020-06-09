@@ -1,4 +1,4 @@
-from main import app
+# from main import app
 import os
 from os.path import join, dirname, realpath
 import glob
