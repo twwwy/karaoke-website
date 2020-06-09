@@ -8,7 +8,8 @@ import glob
 def download_audio(audio_url, _video_id):
     pre_url = 'https://youtube.com'
     url = pre_url + audio_url
-    path = UPLOADS_PATH
+    path = os.path.join(os.path.dirname(os.path.realpath(__file__))[:-5], 'static/downloads/')
+    print(path, flush=True)
     title = audio_url[9:]
     filename = title + '.mp4'
 
