@@ -12,4 +12,4 @@ app.app_context().push()
 bootstrap = Bootstrap(app)
 
 
-from views import *
+from website import views
