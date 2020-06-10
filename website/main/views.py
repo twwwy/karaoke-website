@@ -25,6 +25,7 @@ def search():
     i = 0
     while len(results.videos) == 0:
         print('search again  ' + str(i))
+        current_app.logger.debug('search again' + str(i))
         results = YoutubeSearch(text, max_results=5)
         i += 1
         if i > 2:
