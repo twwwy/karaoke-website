@@ -6,6 +6,7 @@ from flask_bootstrap import Bootstrap
 from config import BaseConfig
 import rq
 import redis
+import rq_dashboard
 
 bootstrap = Bootstrap()
 
@@ -18,6 +19,8 @@ def create_app(config_class=BaseConfig):
 
     from website.main import bp as main_bp
     app.register_blueprint(main_bp)
+
+    app.register_blueprint(rq_dashboard.blueprint, url_prefix="/rq")
 
     if not os.path.exists('logs'):
         os.mkdir('logs')

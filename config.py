@@ -1,6 +1,7 @@
 import os
 from os.path import join, dirname, realpath
 
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class BaseConfig(object):
