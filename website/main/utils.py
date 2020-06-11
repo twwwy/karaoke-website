@@ -5,8 +5,6 @@ from spleeter.audio.adapter import get_default_audio_adapter
 import os
 import glob
 
-from flask import current_app
-
 def download_audio(audio_url, _video_id):
     pre_url = 'https://youtube.com'
     url = pre_url + audio_url
@@ -46,7 +44,6 @@ def download_audio(audio_url, _video_id):
                 '_video_id': _video_id}
         # return send_from_directory(path + filename[:-4], 'accompaniment.mp3')
     except Exception as e:
-        current_app.logger.debug(str(e))
         return str(e)
 
 def _split_audio(path, filename):
@@ -65,4 +62,3 @@ def _split_audio(path, filename):
     print('_ready to separate', flush=True)
     separator.separate_to_file(filename, path, codec='mp3')
     print('separation done', flush=True)
-    current_app.logger.info('separation done')

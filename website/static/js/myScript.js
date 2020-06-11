@@ -119,21 +119,45 @@ function load_audio(){
     $('audio').get(0).load();
 }
 
-function play_audio(){
+function play_audio(video_time){
+    $('audio').get(0).currentTime = video_time
     $('audio').get(0).play()
+}
+
+function toggle_audio_mute(){
+    if ($('audio').get(0).volume == 0){
+        $('audio').get(0).volume = 1
+    } else if ($('audio').get(0).volume == 1){
+        $('audio').get(0).volume = 0
+    }
 }
 
 function stop_audio(){
     $('audio').get(0).pause()
 }
 
-function sync_audio(){
+function get_diff(){
+    getVideoCurrentTime() - $('audio').get(0).currentTime
+}
+
+function sync_audio(diff){
 
     // console.log('')
     // difference0 = getVideoCurrentTime() - $('audio').get(0).currentTime
-    // console.log('pre difference: ' + difference0)
 
-    $('audio').get(0).currentTime = getVideoCurrentTime() + 0.14
+    // setTimeout(difference0 = getVideoCurrentTime() - $('audio').get(0).currentTime
+    //     ,5000)
+    // getVideoCurrentTime() - $('audio').get(0).currentTime
+    // setTimeout($('audio').get(0).currentTime = getVideoCurrentTime()
+    //     ,500)
+    // diff = getVideoCurrentTime() - $('audio').get(0).currentTime
+    console.log('pre difference: ' + diff)
+    $('audio').get(0).currentTime = getVideoCurrentTime() + diff
+
+    // setTimeout($('audio').get(0).currentTime = getVideoCurrentTime() +
+    //     ,500)
+    // console.log('pre difference: ' + difference0)
+    // $('audio').get(0).currentTime = getVideoCurrentTime() + difference0
 
     // difference1 = getVideoCurrentTime() - $('audio').get(0).currentTime
     // console.log('post difference: ' + difference1)
@@ -144,9 +168,11 @@ function sync_audio(){
 
 // next song: move first song in queue to history, and loadVideo, and load accompany
 function next_song() {
-    move_to_history()
-    loadVideo()
-    load_audio()
+    if ($('li.queue').length > 1){
+        move_to_history()
+        loadVideo()
+        load_audio()
+    }
 };
 // a helper function that move played song to history
 function move_to_history() {
@@ -191,7 +217,7 @@ function onYouTubeIframeAPIReady() {
         // width: '640',
         videoId: '',
         events: {
-            // 'onReady': onPlayerReady,
+            'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
             }
     });
@@ -199,7 +225,9 @@ function onYouTubeIframeAPIReady() {
 
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-    event.target.playVideo();
+    player.mute()
+    // event.target.muteVideo();
+    // event.target.playVideo();
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -208,11 +236,17 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
-        muteVideo();
-        play_audio()
-        sync_audio()
-
-
+        toggle_audio_mute()
+        play_audio(getVideoCurrentTime())
+        setTimeout(function () {
+            console.log('wait 0.8 sec')
+            diff = getVideoCurrentTime() - $('audio').get(0).currentTime - 0.06
+            sync_audio(diff)
+        }, 800)
+        toggle_audio_mute()
+        //
+        // setTimeout(sync_audio(diff),
+        //     1000)
 
     } else if (event.data == YT.PlayerState.PAUSED) {
         //pause audio player

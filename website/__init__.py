@@ -15,7 +15,6 @@ def create_app(config_class=BaseConfig):
     app.redis = redis.Redis.from_url(app.config['REDIS_URL'])
     bootstrap.init_app((app))
     app.task_queue = rq.Queue(connection=app.redis)
-    app.app_context().push()
 
     from website.main import bp as main_bp
     app.register_blueprint(main_bp)
@@ -31,6 +30,8 @@ def create_app(config_class=BaseConfig):
 
     app.logger.setLevel(logging.DEBUG)
     app.logger.info('Karaoke startup')
+
+    app.app_context().push()
 
     return app
 
