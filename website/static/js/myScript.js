@@ -192,8 +192,10 @@ function getStatus(taskID){
             $('li.queue[video_id='+r.data.task_result._video_id+']').addClass('list-group-item-success')
             $('li.queue[video_id='+r.data.task_result._video_id+']').attr('k_ready', r.data.task_result.url)
             sessionStorage.setItem(r.data.task_result._video_id, r.data.task_result.url)
+        } else if (taskStatus === 'failed'){
+            console.log('Task Failed: ' + taskStatus)
         } else {
-            console.log('Waiting for result...')
+            console.log('Waiting for result...Status: ' + taskStatus)
             setTimeout(function(){
                 getStatus(r.data.task_id)
             }, 5000)
