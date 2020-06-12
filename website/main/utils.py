@@ -5,7 +5,11 @@ from spleeter.audio.adapter import get_default_audio_adapter
 import os
 import glob
 
-def download_audio(audio_url, _video_id):
+separator = Separator('spleeter:2stems')
+audio_loader = get_default_audio_adapter()
+sample_rate = 44100
+
+def download_audio(audio_url, _video_id, separator=separator, audio_loader=audio_loader, sample_rate=sample_rate):
     pre_url = 'https://youtube.com'
     url = pre_url + audio_url
     path = os.path.join(os.path.dirname(os.path.realpath(__file__))[:-5], 'static/downloads/')
@@ -32,7 +36,7 @@ def download_audio(audio_url, _video_id):
         separation_folder = title
         if not os.path.exists(path + separation_folder):
             print('Starting separation', flush=True)
-            _split_audio(path, path + filename) # separate audio files
+            _split_audio(path, path + filename, separator=separator, audio_loader=audio_loader, sample_rate=sample_rate) # separate audio files
             print('separation done, serving file...', flush=True)
             os.remove(path + filename) # remove original audio file
         else:
@@ -46,15 +50,15 @@ def download_audio(audio_url, _video_id):
     except Exception as e:
         return str(e)
 
-def _split_audio(path, filename):
+def _split_audio(path, filename, separator=separator, audio_loader=audio_loader, sample_rate=sample_rate):
     """
     called within the function download_audio() to process original .mp4 file and separate
     the vocal and accompaniment. The files are stored locally in path/{file name}/
     vocals.mp3 ,or accompaniment.mp3
     """
-    separator = Separator('spleeter:2stems')
-    audio_loader = get_default_audio_adapter()
-    sample_rate = 44100
+    # separator = Separator('spleeter:2stems')
+    # audio_loader = get_default_audio_adapter()
+    # sample_rate = 44100
     print('_load mp3 for splitting', flush=True)
     print(filename)
     waveform, _ = audio_loader.load(filename, sample_rate=sample_rate)
