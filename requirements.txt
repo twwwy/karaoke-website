@@ -6,7 +6,8 @@ matplotlib==3.2.1
 pipdeptree==0.13.2
 pyOpenSSL==19.1.0
 PySocks==1.7.1
-pytube3==9.6.4
+#pytube3==9.6.4
+git+https://github.com/twwwy/pytube
 rq-dashboard==0.6.1
 spleeter==1.5.2
 youtube-search==0.1.3
