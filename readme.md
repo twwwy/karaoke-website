@@ -6,7 +6,7 @@ libsndfile
 
 redis
 
-#Commends:
+# Commends:
 
 export FLASK_APP=karaoke.py
 
