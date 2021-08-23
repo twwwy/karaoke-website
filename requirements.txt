@@ -1,7 +1,7 @@
 brotlipy==0.7.0
 Flask-Bootstrap==3.3.7.1
 Flask-WTF==0.14.3
-jupyterlab==2.1.2
+jupyterlab==2.2.10
 matplotlib==3.2.1
 pipdeptree==0.13.2
 pyOpenSSL==19.1.0
